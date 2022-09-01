@@ -3,13 +3,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { WeatherModule } from './weather/weather.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mssql',
-      port: 1433,
+      port: parseInt(process.env.DB_PORT, 10) || 1433,
       host: process.env.DB_HOST,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
@@ -18,6 +19,7 @@ import { ConfigModule } from '@nestjs/config';
       entities: [],
       synchronize: true,
     }),
+    WeatherModule,
   ],
   controllers: [AppController],
   providers: [AppService],
