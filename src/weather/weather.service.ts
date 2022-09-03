@@ -3,9 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Weather } from './entities/weather.entity';
 
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-
-import { DataSource } from 'typeorm';
+import { Repository, Like, DataSource } from 'typeorm';
 
 @Injectable()
 export class WeatherService {
@@ -25,15 +23,16 @@ export class WeatherService {
       }
       await queryRunner.commitTransaction();
     } catch (err) {
-      // since we have errors lets rollback the changes we made
       await queryRunner.rollbackTransaction();
     } finally {
-      // you need to release a queryRunner which was manually instantiated
       await queryRunner.release();
     }
   }
-  async findAll() {
-    const data = await this.weatherRepository.find();
-    return data;
+  async findAll(query: Partial<Weather>) {
+    const [data, count] = await this.weatherRepository.findAndCount({
+      where: { postcode: Like(query.postcode), date: Like(query.date) },
+    });
+
+    return { data, count };
   }
 }

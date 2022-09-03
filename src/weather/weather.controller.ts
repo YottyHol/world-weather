@@ -1,10 +1,11 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, Query } from '@nestjs/common';
 import { WeatherService } from './weather.service';
-
 import { readFileSync } from 'fs';
 import { Weather } from './entities/weather.entity';
 import { CreateWeatherDto } from './dto/create-weather.dto';
 import axios from 'axios';
+import { WeatherQueryParams } from './dto/WeatherQueryParams.dto';
+import { query } from 'express';
 const postcodes = JSON.parse(readFileSync('./postcodes.json', 'utf-8'));
 
 @Controller('weather')
@@ -52,7 +53,8 @@ export class WeatherController {
   }
 
   @Get()
-  findAll() {
-    return this.weatherService.findAll();
+  findAll(@Query() queryParams: WeatherQueryParams) {
+    const { ...query } = queryParams;
+    return this.weatherService.findAll(query);
   }
 }
