@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { WeatherModule } from './weather/weather.module';
@@ -18,10 +16,9 @@ import { Weather } from './weather/entities/weather.entity';
       database: 'world-weather',
       extra: { trustServerCertificate: true },
       entities: [Weather],
+      logging: true,
     }),
     WeatherModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
