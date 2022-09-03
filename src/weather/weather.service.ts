@@ -29,10 +29,14 @@ export class WeatherService {
     }
   }
   async findAll(query: Partial<Weather>) {
-    const [data, count] = await this.weatherRepository.findAndCount({
-      where: { postcode: Like(query.postcode), date: query.date },
-    });
-
-    return { data, count };
+    if (query) {
+      const [data, count] = await this.weatherRepository.findAndCount({
+        where: { postcode: Like(query.postcode), date: query.date },
+      });
+      return { data, count };
+    } else {
+      const [data, count] = await this.weatherRepository.findAndCount({});
+      return { data, count };
+    }
   }
 }
