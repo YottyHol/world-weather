@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { WeatherModule } from './weather/weather.module';
+import { Weather } from './weather/entities/weather.entity';
 
 @Module({
   imports: [
@@ -16,8 +17,7 @@ import { WeatherModule } from './weather/weather.module';
       password: process.env.DB_PASSWORD,
       database: 'world-weather',
       extra: { trustServerCertificate: true },
-      entities: [],
-      synchronize: true,
+      entities: [Weather],
     }),
     WeatherModule,
   ],
