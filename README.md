@@ -1,6 +1,11 @@
+### Weather Data
 This App uses https://www.weatherapi.com/ , a key will have to be generated
 
+### Database
 This App uses a local connection to SSMS, the repository contains a SQL file for creating the PostcodeWeather Table, however any table could be used by changing the name in the weather.entity class 
+
+### Swagger
+Swagger Docs can be viewed by running the application and going to http://localhost:3000/api
 
 ### Environment Variables
 
